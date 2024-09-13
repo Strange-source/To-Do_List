@@ -1,0 +1,166 @@
+
+@import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
+
+body {
+    font-family: "SUSE";
+    text-align: left;
+    height: 100000vh;
+    background: url(Images/background.png) center center no-repeat;
+    background-size: cover;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1vh;
+    border-bottom: #f1f1f1 2px solid;
+    margin-bottom: -5vh;
+}
+
+nav > a {
+    color: #f1f1f1;
+    font-size: 5vh;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    color: #f1f1f1;
+}
+
+li {
+    margin-bottom: 10px;
+    color: #f1f1f1;
+    font-size: 3vh;
+}
+
+hr {
+    color: red;
+    background-color: red;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: yellow;
+}
+
+option {
+    width: 5vh;
+}
+
+.♞ {
+    background-color: red;
+    color: black;
+    position: absolute;
+    left: 29%;
+}
+
+.♜ {
+    background-color: orange;
+    color: black;
+    position: absolute;
+    left: 29%;
+}
+
+.♙ {
+    background-color: blue;
+    color: white;
+    position: absolute;
+    left: 29%;
+}
+
+input#newTask {
+    position: sticky;
+    top: 90%;
+    left: 52.5%;
+    height: calc(5.1vh);
+    font-size: 3vh;
+    outline: none;
+    border: black 5px solid;
+    border-radius: .7vh;
+    padding-left: 15px;
+}
+
+select {
+    position: sticky;
+    top: 90%;
+    left: 85%;
+    height: 6.326086956521739vh;
+    border: black 5px solid;
+    font-size: 3vh;
+    outline: none;
+    border-radius: .7vh;
+}
+
+button#addTaskBtn {
+    position: sticky;
+    top: 90%;
+    left: 92.7%;
+    height: 6.326086956521739vh;
+    width: 6.326086956521739vh;
+    font-size: 3vh;
+    outline: none;
+    border-radius: .7vh;
+    background-color: crimson;
+    border: black 5px solid;
+}
+
+button.completeBtn {
+    position: absolute;
+    left: 32%;
+    font-size: 3vh
+}
+
+span.added {
+    position: absolute;
+    left: 20%;
+}
+
+button.deleteBtn {
+    position: absolute;
+    left: 35%;
+    font-size: 3vh
+}
+
+a.todo {
+    color: limegreen;
+}
+
+div.img {
+    position: sticky;
+    top: 30%;
+    left: 60%;
+    height: 50vh;
+    width: 50vh;
+}
+
+div.img > img {
+    height: 45vh;
+    border-radius: 1vh;
+}
+
+input#newQuantity {
+  position: sticky;
+    top: 90%;
+    left: 72.8%;
+    height: calc(5.1vh);
+    width: 20.5vh;
+    font-size: 3vh;
+    outline: none;
+    border: black 5px solid;
+    border-radius: .7vh;
+    padding-left: 15px;
+}
+
+span.quantity {
+  color: #f1f1f1;
+  background-color: transparent;
+  display: block;
+  height: 5vh;
+  width: 12vh;
+  position: absolute;
+  left: 13%;
+  transform: translateY(-4.4vh);
+}

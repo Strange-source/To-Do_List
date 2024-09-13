@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List App</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    </style>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(to bottom right, #1a2a3a, #2a3a4a);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        h1.gro {
+            text-decoration: none;
+            color: #1a2a3a;
+            background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(153,153,153,1) 100%);
+            height: 4.5vh;
+            margin: 2vh 0;
+            width: 25vh;
+            font-size: 3.5vh;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            padding-right: 3px;
+        }
+
+        h1.month {
+            text-decoration: none;
+            color: #1a2a3a;
+            background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(153,153,153,1) 100%);
+            height: 4.5vh;
+            margin: 2vh 0;
+            width: 32vh;
+            font-size: 3.5vh;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            padding-right: 3px;
+        }
+
+        h1.nm {
+            text-decoration: none;
+            color: #1a2a3a;
+            background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(153,153,153,1) 100%);
+            height: 4.5vh;
+            margin: 2vh 0;
+            width: 22vh;
+            font-size: 3.5vh;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            padding-right: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        th {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .priority-high { color: red; font-size: 4vh;}
+        .priority-medium { color: yellow; font-size: 4vh;}
+        .priority-low { color: lime; font-size: 4vh;}
+        .done { text-decoration: line-through; opacity: 0.6; }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(153,153,153,1) 100%);
+        }
+        button {
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 4vh;
+            width: 4vh;
+        }
+        button:hover {
+            background-color: #3a8ad6;
+            height: 4vh;
+            width: 4vh;
+            display: flex;
+            align-items: center;
+            color: black;
+            justify-content: center;
+            font-size: 3vh;
+        }
+        input.checkbox {
+            height: 2.5vh;
+            width: 2.5vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav>
+            <h1 class="gro">Grocery List </h1> <h1 class="nm">@Ratan Dixit</h1> <h1 class="month">September 2024</h1>
+        </nav>
+
+        <table id="groceryList">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Priority</th>
+                    <th>Date</th>
+                    <th>Done</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
+        </table>
+        <div class="input-group">
+            <input type="text" id="itemInput" placeholder="Enter your Item...">
+            <input type="text" id="quantityInput" placeholder="Quantity">
+            <select id="priorityInput">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button onclick="addItem()">+</button>
+        </div>
+    </div>
+
+    <script>
+
+        console.log("Developed by Ratan Dixit")
+
+        let items = [];
+
+        function addItem() {
+            const itemInput = document.getElementById('itemInput');
+            const quantityInput = document.getElementById('quantityInput');
+            const priorityInput = document.getElementById('priorityInput');
+
+            if (itemInput.value.trim() === '' || quantityInput.value.trim() === '') {
+                alert('Please enter both item and quantity');
+                return;
+            }
+
+            const newItem = {
+                id: items.length + 1,
+                name: itemInput.value,
+                quantity: quantityInput.value,
+                priority: priorityInput.value,
+                date: new Date().toLocaleDateString('en-GB'),
+                done: false
+            };
+
+            items.push(newItem);
+            saveItemsToCookies();
+            renderList();
+            itemInput.value = '';
+            quantityInput.value = '';
+            priorityInput.value = 'medium';
+        }
+
+        function toggleDone(id) {
+            const item = items.find(item => item.id === id);
+            if (item) {
+                item.done = !item.done;
+                saveItemsToCookies();
+                renderList();
+            }
+        }
+
+        function deleteItem(id) {
+            items = items.filter(item => item.id !== id);
+            saveItemsToCookies();
+            renderList();
+        }
+
+        function renderList() {
+            const tbody = document.querySelector('#groceryList tbody');
+            tbody.innerHTML = '';
+
+            items.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.id}</td>
+                    <td class="${item.done ? 'done' : ''}">${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td class="priority-${item.priority}">✈</td>
+                    <td>${item.date}</td>
+                    <td><input class="checkbox" type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleDone(${item.id})"></td>
+                    <td><button onclick="deleteItem(${item.id})">x</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveItemsToCookies() {
+            document.cookie = `groceryItems=${JSON.stringify(items)};path=/`;
+        }
+
+        function loadItemsFromCookies() {
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('groceryItems='))
+                ?.split('=')[1];
+
+            if (cookieValue) {
+                items = JSON.parse(decodeURIComponent(cookieValue));
+                renderList();
+            }
+        }
+
+        // Load items from cookies on page load
+        window.onload = loadItemsFromCookies;
+
+        // Initial render
+        renderList();
+    </script>
+</body>
+</html>

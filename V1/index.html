@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
+
+body {
+    font-family: "SUSE";
+    text-align: left;
+    height: 100000vh;
+    background: url(Images/background.png) center center no-repeat;
+    background-size: cover;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1vh;
+    border-bottom: #f1f1f1 2px solid;
+    margin-bottom: -5vh;
+}
+
+nav > a {
+    color: #f1f1f1;
+    font-size: 5vh;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    color: #f1f1f1;
+}
+
+li {
+    margin-bottom: 10px;
+    color: #f1f1f1;
+    font-size: 3vh;
+}
+
+hr {
+    color: red;
+    background-color: red;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: yellow;
+}
+
+option {
+    width: 5vh;
+}
+
+.♞ {
+    background-color: red;
+    color: black;
+    position: absolute;
+    left: 29%;
+}
+
+.♜ {
+    background-color: orange;
+    color: black;
+    position: absolute;
+    left: 32%;
+    font-size: 4vh;
+    height: 4.7vh;
+    width: 4.7vh;
+    text-align: justify;
+}
+
+.♙ {
+    background-color: blue;
+    color: white;
+    position: absolute;
+    left: 29%;
+}
+
+input#newTask {
+    position: sticky;
+    top: 90%;
+    left: 52.5%;
+    height: calc(5.1vh);
+    font-size: 3vh;
+    outline: none;
+    border: black 5px solid;
+    border-radius: .7vh;
+    padding-left: 15px;
+}
+
+select {
+    position: sticky;
+    top: 90%;
+    left: 85%;
+    height: 6.326086956521739vh;
+    border: black 5px solid;
+    font-size: 3vh;
+    outline: none;
+    border-radius: .7vh;
+}
+
+button#addTaskBtn {
+    position: sticky;
+    top: 90%;
+    left: 92.7%;
+    height: 6.326086956521739vh;
+    width: 6.326086956521739vh;
+    font-size: 3vh;
+    outline: none;
+    border-radius: .7vh;
+    background-color: crimson;
+    border: black 5px solid;
+}
+
+button.completeBtn {
+    position: absolute;
+    left: 34.5%;
+    font-size: 3vh;
+    height: 4.7vh;
+    width: 4.7vh;
+}
+
+span.added {
+    position: absolute;
+    left: 23.2%;
+}
+
+button.deleteBtn {
+    position: absolute;
+    left: 38%;
+    width: 4.7vh;
+    height: 4.7vh;
+}
+
+a.todo {
+    color: limegreen;
+}
+
+div.img {
+    position: sticky;
+    top: 30%;
+    left: 60%;
+    height: 50vh;
+    width: 50vh;
+}
+
+div.img > img {
+    height: 45vh;
+    border-radius: 1vh;
+}
+
+input#newQuantity {
+  position: sticky;
+    top: 90%;
+    left: 72.8%;
+    height: calc(5.1vh);
+    width: 20.5vh;
+    font-size: 3vh;
+    outline: none;
+    border: black 5px solid;
+    border-radius: .7vh;
+    padding-left: 15px;
+}
+
+span.quantity {
+  color: #f1f1f1;
+  background-color: transparent;
+  display: block;
+  height: 5vh;
+  width: 20vh;
+  position: absolute;
+  left: 13%;
+  transform: translateY(-4.4vh);
+}
+
+  </style>
+
+</head>
+<body>
+
+  <nav>
+    <a href="" class="todo">To-Do List</a>
+    <a href="" class="gro">Grocery</a>
+    <a href="" class="month">September 24'</a>
+  </nav>
+
+  <input type="text" id="newTask" placeholder="Enter new task">
+  <input type="text" id="newQuantity" placeholder="Enter Quantity">
+
+  <select id="priority">
+    <option value="♞">High</option>
+    <option value="♜">Medium</option>
+    <option value="♙">Low</option>
+  </select>
+
+  <button id="addTaskBtn">⨥</button>
+
+  <ol id="taskList">
+  </ol>
+
+  <div class="img"><img src="Images/cart-img.png" alt=""></div>
+
+  <script>
+const taskList = document.getElementById('taskList');
+const newTaskInput = document.getElementById('newTask');
+const newTaskQuantity = document.getElementById('newQuantity');
+const prioritySelect = document.getElementById('priority');
+const addTaskBtn = document.getElementById('addTaskBtn');
+
+// Load tasks from localStorage
+window.addEventListener('load', loadTasksFromStorage);
+
+function loadTasksFromStorage() {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.forEach(task => {
+    addTaskToDOM(task.text, task.priority, task.date, task.completed, task.quantity);
+  });
+}
+
+function addTaskToDOM(taskText, priority, taskDate, completed, quantity) {
+  const taskItem = document.createElement('li');
+  taskItem.classList.toggle('completed', completed);
+  taskItem.innerHTML = `
+    <span>${taskText}</span>
+    <span class="quantity">${quantity}</span>
+    <span class="${priority}">${priority}</span>
+    <span class="added">${taskDate}</span>
+    <button class="completeBtn">☑</button>
+    <button class="deleteBtn">️x</button>
+  `;
+  taskList.appendChild(taskItem);
+
+  const completeBtn = taskItem.querySelector('.completeBtn');
+  completeBtn.addEventListener('click', () => {
+    taskItem.classList.toggle('completed');
+    updateTaskInStorage(taskText, taskItem.classList.contains('completed'), quantity); // Update with quantity
+  });
+
+  const deleteBtn = taskItem.querySelector('.deleteBtn');
+  deleteBtn.addEventListener('click', () => {
+    removeTaskFromDOM(taskItem);
+    removeTaskFromStorage(taskText);
+  });
+}
+
+addTaskBtn.addEventListener('click', () => {
+  const taskText = newTaskInput.value;
+  const priority = prioritySelect.value;
+  const taskDate = new Date().toLocaleDateString();
+  const quantity = newTaskQuantity.value; // Get the quantity value
+
+  if (taskText !== '') {
+    addTaskToDOM(taskText, priority, taskDate, false, quantity); // Pass quantity as argument
+    saveTaskToStorage(taskText, priority, taskDate, false, quantity); // Save with quantity
+    newTaskInput.value = '';
+    prioritySelect.value = 'H'; // Reset priority to high
+    newTaskQuantity.value = ''; // Clear quantity input
+  }
+});
+
+function saveTaskToStorage(taskText, priority, taskDate, completed, quantity) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.push({ text: taskText, priority: priority, date: taskDate, completed: completed, quantity: quantity });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function updateTaskInStorage(taskText, completed, quantity) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const taskIndex = tasks.findIndex(task => task.text === taskText);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].completed = completed;
+    tasks[taskIndex].quantity = quantity; // Update the quantity as well
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+}
+
+function removeTaskFromDOM(taskItem) {
+  taskList.removeChild(taskItem);
+}
+
+function removeTaskFromStorage(taskText) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const taskIndex = tasks.findIndex(task => task.text === taskText);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+}
+  </script>
+
+</body>
+</html>
