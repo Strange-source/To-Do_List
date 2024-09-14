@@ -37,7 +37,6 @@
             height: 4.5vh;
             margin: 2vh 0;
             width: 25vh;
-            font-size: 3.5vh;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -53,7 +52,6 @@
             height: 4.5vh;
             margin: 2vh 0;
             width: 32vh;
-            font-size: 3.5vh;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -69,7 +67,6 @@
             height: 4.5vh;
             margin: 2vh 0;
             width: 22vh;
-            font-size: 3.5vh;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -140,7 +137,7 @@
     <div class="container">
 
         <nav>
-            <h1 class="gro">Grocery List </h1> <h1 class="nm">@Ratan Dixit</h1> <h1 class="month">September 2024</h1>
+            <h1 class="gro">Grocery List</h1> <h1 class="nm">@Ratan Dixit</h1> <h1 class="month">September 2024</h1>
         </nav>
 
         <table id="groceryList">
@@ -173,9 +170,9 @@
 
     <script>
 
-        console.log("Developed by Ratan Dixit")
+        console.log("Developed by Ratan Dixit");
 
-        let items = [];
+        let items = JSON.parse(localStorage.getItem('groceryList')) || [];
 
         function addItem() {
             const itemInput = document.getElementById('itemInput');
@@ -197,7 +194,7 @@
             };
 
             items.push(newItem);
-            saveItemsToCookies();
+            saveItemsToLocalStorage();
             renderList();
             itemInput.value = '';
             quantityInput.value = '';
@@ -208,14 +205,14 @@
             const item = items.find(item => item.id === id);
             if (item) {
                 item.done = !item.done;
-                saveItemsToCookies();
+                saveItemsToLocalStorage();
                 renderList();
             }
         }
 
         function deleteItem(id) {
             items = items.filter(item => item.id !== id);
-            saveItemsToCookies();
+            saveItemsToLocalStorage();
             renderList();
         }
 
@@ -238,27 +235,13 @@
             });
         }
 
-        function saveItemsToCookies() {
-            document.cookie = `groceryItems=${JSON.stringify(items)};path=/`;
+        function saveItemsToLocalStorage() {
+            localStorage.setItem('groceryList', JSON.stringify(items));
         }
 
-        function loadItemsFromCookies() {
-            const cookieValue = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('groceryItems='))
-                ?.split('=')[1];
+        // Load the list when the page loads
+        document.addEventListener('DOMContentLoaded', renderList);
 
-            if (cookieValue) {
-                items = JSON.parse(decodeURIComponent(cookieValue));
-                renderList();
-            }
-        }
-
-        // Load items from cookies on page load
-        window.onload = loadItemsFromCookies;
-
-        // Initial render
-        renderList();
     </script>
 </body>
 </html>
